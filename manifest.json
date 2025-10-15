@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "GradeDestroyer",
+  "version": "1.0",
+  "description": "Makes Canvas submissions incredibly difficult",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.instructure.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["destroyer.html", "game.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

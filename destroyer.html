@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GradeDestroyer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #7f1d1d 0%, #1f2937 50%, #000000 100%);
+      color: white;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    
+    .title {
+      font-size: 3rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #ef4444, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    
+    .subtitle {
+      color: #9ca3af;
+      font-size: 1.25rem;
+    }
+    
+    .timer {
+      background: #7f1d1d;
+      border: 2px solid #ef4444;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .timer-label {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    
+    .timer-value {
+      font-size: 2rem;
+      font-weight: bold;
+      font-family: monospace;
+      color: #fbbf24;
+    }
+    
+    .timer-value.critical {
+      color: #fca5a5;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .game-area {
+      background: #1f2937;
+      border: 2px solid #374151;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .phase-info {
+      background: rgba(127, 29, 29, 0.5);
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .phase-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .phase-description {
+      color: #d1d5db;
+    }
+    
+    .hunt-area {
+      position: relative;
+      flex: 1;
+      min-height: 400px;
+    }
+    
+    .submit-button {
+      position: absolute;
+      background: #059669;
+      color: white;
+      font-weight: bold;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transform: translate(-50%, -50%);
+      transition: background 0.2s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    .submit-button:hover {
+      background: #047857;
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    }
+    
+    .snake-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .snake-stats {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
+    }
+    
+    .stat-value {
+      font-weight: bold;
+      color: #fbbf24;
+    }
+    
+    .snake-grid {
+      position: relative;
+      background: #000;
+      border: 4px solid #374151;
+      border-radius: 0.5rem;
+    }
+    
+    .snake-cell {
+      position: absolute;
+      border-radius: 2px;
+    }
+    
+    .snake-head {
+      background: #10b981;
+    }
+    
+    .snake-body {
+      background: #059669;
+    }
+    
+    .food {
+      background: #3b82f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .game-over-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+    }
+    
+    .game-over-text {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ef4444;
+      margin-bottom: 0.5rem;
+    }
+    
+    .success-screen {
+      text-align: center;
+      padding: 3rem;
+    }
+    
+    .success-emoji {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .success-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #10b981;
+      margin-bottom: 1rem;
+    }
+    
+    .success-text {
+      font-size: 1.25rem;
+      color: #d1d5db;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="title">💀 GradeDestroyer™ 💀</h1>
+      <p class="subtitle">Canvas Submission Sabotage System</p>
+    </div>
+    
+    <div class="timer">
+      <span class="timer-label">⏱️ Time Until Deadline:</span>
+      <span class="timer-value" id="timer">2:00</span>
+    </div>
+    
+    <div class="game-area" id="gameArea">
+      <!-- Content will be dynamically inserted -->
+    </div>
+  </div>
+  
+  <script src="game.js"></script>
+</body>
+</html>
