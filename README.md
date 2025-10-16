@@ -91,7 +91,7 @@ go ahead, champ. turn in that half-finished PDF.
 4. Click **Load unpacked**  
 5. Choose the `GradeDestroyer` folder  
 6. Go to your Canvas assignment page  
-7. Click **“Submit Assignment”** and watch your sanity dissolve
+7. Click **“Start Assignment”** and watch your sanity dissolve
 
 ---
 
